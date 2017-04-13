@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fiat lux</title>
+    <style media="screen">
+      #ui{
+        pointer-events: none;
+        opacity: .5;
+      }
+      #ui.online{
+        pointer-events: auto;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ui">
+      <input id="light_state" type="checkbox" >
+      <input id="light_bright" type="range" max="255">
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function debounce(fn, delay) {
+          var timeout;
+
+          return function () {
+              var context = this,
+                  args = arguments;
+
+              clearTimeout(timeout);
+              timeout = setTimeout(function () {
+                  fn.apply(context, args);
+              }, delay || 250);
+          };
+      }
+
+      var ui = document.getElementById('ui')
+      var state = document.getElementById('light_state')
+      var bright = document.getElementById('light_bright')
+      var socket = io();
+      socket.on('server event', function (data) {
+        if (data[2].state.reachable) {
+          ui.classList.add('online');
+          state.checked = data[2].state.on;
+          bright.value = data[2].state.bri;
+        }
+      });
+      ui.addEventListener('click',function() {
+        var data = {
+          "on": state.checked,
+          "bri": parseInt(bright.value)
+        }
+        debounce( socket.emit('client event', data), 1000)
+      })
+    </script>
+  </body>
+</html>
