@@ -1,0 +1,21 @@
+#ui{
+  pointer-events: none;
+  opacity: .5;
+  max-width: 320px;
+  margin: auto;
+}
+#ui.online{
+  pointer-events: auto;
+  opacity: 1;
+}
+#light_state{
+  margin: 5px auto;
+  display: block;
+  zoom: 12;
+}
+#light_bright{
+  display: block;
+  width: 100%;
+  margin: auto;
+  zoom: 5;
+}
