@@ -15,14 +15,13 @@ var key = "PkONUdT2XFC87UmSgBanD1UD-ET-Rfghl8RnQUK2";
 app.engine('html', swig.renderFile);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 
 // server and routing
 server.listen(8080);
 app.get('/', function(req, res) {
   res.render('index');
 });
-
 
 
 
